@@ -6,7 +6,6 @@
 
 > Resolve a whole structure of promises, library agnostic
 
-[![Build Status](https://travis-ci.org/nknapp/bootprint-swagger.svg?branch=master)](https://travis-ci.org/nknapp/bootprint-swagger)
 
 
 This small library is a promise-library agnostic function that resolves a whole structure
