@@ -1,13 +1,27 @@
-# deep-aplus
+# deep-aplus 
+[![NPM version](https://badge.fury.io/js/deep-aplus.svg)](http://badge.fury.io/js/deep-aplus) 
+[![Build Status](https://travis-ci.org/nknapp/deep-aplus.svg)](https://travis-ci.org/nknapp/deep-aplus) 
+[![Coverage Status](https://img.shields.io/coveralls/nknapp/deep-aplus.svg)](https://coveralls.io/r/nknapp/deep-aplus)
+
 
 > Resolve a whole structure of promises, library agnostic
+
+[![Build Status](https://travis-ci.org/nknapp/bootprint-swagger.svg?branch=master)](https://travis-ci.org/nknapp/bootprint-swagger)
+
 
 This small library is a promise-library agnostic function that resolves a whole structure
 or objects, arrays, promises and values to a single promise in which the whole structure is 
 resolved.
 
+Unlike other libraries like [q-deep](https://npmjs.com/package/q-deep), [resolve-deep](https://npmjs.com/package/resolve-deep) and 
+[swear](https://npmjs.com/package/swear), this library is designed to work without dependencies to any promise library
+(and also without any other dependencies).
+Just pass the promise constructor (i.e. `Q.Promise` or `Promise`) as first argument.
+
 **Note: There is no cycle check. You have to check for cycles yourself before passing the
   structure to the function**
+
+
 # Installation
 
 ```
@@ -29,18 +43,16 @@ function P (value) {
   })
 }
 
-
-
 deep(2).done(console.log) // 2
-deep(P(2)).done(console.log)  // 2
+deep(P(2)).done(console.log) // 2
 deep({a: 1, b: P(2)}).done(console.log) // { a: 1, b: 2 }
-deep({a: 1, b: [ 2, P(3)]}).done(console.log); // { a: 1, b: [ 2, 3 ] }
-deep({a: 1, b: { c: 2, d: P(3)}}).done(console.log); // { a: 1, b: { c: 2, d: 3 } }
+deep({a: 1, b: [ 2, P(3) ]}).done(console.log) // { a: 1, b: [ 2, 3 ] }
+deep({a: 1, b: { c: 2, d: P(3) }}).done(console.log) // { a: 1, b: { c: 2, d: 3 } }
 
 // Nesting promises
-deep({a: 1, b: P([ 2, P(3)])}).done(console.log); // { a: 1, b: [ 2, 3 ] }
-deep({a: 1, b: P([ 2, P(3)])}).done(console.log); // { a: 1, b: [ 2, 3 ] }
-deep({a: 1, b: P({ c: 2, d: P(3)})}).done(console.log); // { a: 1, b: { c: 2, d: 3 } }
+deep({a: 1, b: P([ 2, P(3) ])}).done(console.log) // { a: 1, b: [ 2, 3 ] }
+deep({a: 1, b: P([ 2, P(3) ])}).done(console.log) // { a: 1, b: [ 2, 3 ] }
+deep({a: 1, b: P({ c: 2, d: P(3) })}).done(console.log) // { a: 1, b: { c: 2, d: 3 } }
 ```
 
 
