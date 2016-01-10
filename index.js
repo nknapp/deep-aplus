@@ -72,9 +72,9 @@ function deepAPlus (Promise) {
   function handleAny (obj) {
     if (isPromiseAlike(obj)) {
       return obj.then(handleAny)
-    } else if ('[object Object]' === Object.prototype.toString.call(obj)) {
+    } else if (Object.prototype.toString.call(obj) === '[object Object]') {
       return handleObject(obj)
-    } else if ('[object Array]' === Object.prototype.toString.call(obj)) {
+    } else if (Object.prototype.toString.call(obj) === '[object Array]') {
       return handleArray(obj)
     } else {
       return new Promise(function (fulfill) {
@@ -84,5 +84,4 @@ function deepAPlus (Promise) {
   }
 
   return handleAny
-
 }
