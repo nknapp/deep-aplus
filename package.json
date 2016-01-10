@@ -40,5 +40,16 @@
       "test/fixtures/**"
     ]
   },
-  "keywords": []
+  "keywords": [
+    "promise",
+    "q",
+    "bluebird",
+    "a+",
+    "deep",
+    "resolve",
+    "recursive"
+  ],
+  "files": [
+    "index.js"
+  ]
 }
