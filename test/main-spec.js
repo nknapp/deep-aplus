@@ -20,7 +20,7 @@ var expect = chai.expect
 var Q = require('q')
 var deep = require('../')(Q.Promise)
 var delay = function (value) {
-  return Q.delay(10).then(function () {
+  return Q.delay(1).then(function () {
     return value
   })
 }
@@ -114,5 +114,15 @@ describe('deep-aplus:', function () {
     it('should match spec "' + key + '"', function () {
       return expect(deep(spec[key].input)).to.eventually.deep.equal(spec[key].output)
     })
+  })
+
+  it('should reject the promise if any promise inside the structure is rejected', function () {
+    var input = {
+      a: 'a',
+      b: delay('b').then(function () {
+        throw new Error('Intented error')
+      })
+    }
+    return expect(deep(input)).to.be.rejectedWith(Error)
   })
 })
