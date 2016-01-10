@@ -1,6 +1,6 @@
 {
   "name": "deep-aplus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Resolve a whole structure of promises, library agnostic",
   "repository": {
     "type": "git",
