@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.0.2 (Tue, 12 Jan 2016 21:03:08 GMT)
+
+* [d453d75](https://github.com/nknapp/deep-aplus/commit/d453d75) Fix for empy arrays and objects. - Nils Knappmeier
+
 # Version 1.0.1 (Sun, 10 Jan 2016 22:47:09 GMT)
 
 * [93c7325](https://github.com/nknapp/deep-aplus/commit/93c7325) Add "files" and "keywords" to package.json - Nils Knappmeier
