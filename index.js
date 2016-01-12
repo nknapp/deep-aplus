@@ -20,10 +20,14 @@ module.exports = deepAPlus
  * @public
  * @module
  */
+
 function deepAPlus (Promise) {
   function handleArray (arr) {
     return new Promise(function (fulfill, reject) {
       var counter = arr.length
+      if (arr.length === 0) {
+        return fulfill([])
+      }
       var result = []
       arr.forEach(function (element, index) {
         handleAny(element).then(function (value) {

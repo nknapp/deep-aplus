@@ -125,4 +125,14 @@ describe('deep-aplus:', function () {
     }
     return expect(deep(input)).to.be.rejectedWith(Error)
   })
+
+  it('should handle empty arrays correctly', function () {
+    var input = []
+    return expect(deep(input)).to.eventually.deep.equal([])
+  })
+
+  it('should handle empty objects correctly', function () {
+    var input = {}
+    return expect(deep(input)).to.eventually.deep.equal({})
+  })
 })
