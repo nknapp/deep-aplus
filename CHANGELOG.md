@@ -3,6 +3,15 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.0.4 (Mon, 19 Dec 2016 14:29:28 GMT)
+
+* [74bd71b](https://github.com/nknapp/deep-aplus/commit/74bd71b) Use thoughtful-release for changelogs - Nils Knappmeier
+
+# Version 1.0.3 (Mon, 19 Dec 2016 14:29:28 GMT)
+
+* [30dd3cc](https://github.com/nknapp/deep-aplus/commit/74bd71b) Do not dive into objects of classes (like streams) in order to preserve their functionality. - Nils Knappmeier
+
+
 # Version 1.0.2 (Tue, 12 Jan 2016 21:03:08 GMT)
 
 * [d453d75](https://github.com/nknapp/deep-aplus/commit/d453d75) Fix for empy arrays and objects. - Nils Knappmeier
