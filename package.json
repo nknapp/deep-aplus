@@ -24,7 +24,7 @@
     "thought": "thought run -a",
     "prethoughtcheck": "thought --version || npm -g install thought",
     "thoughtcheck": "thought check-engines",
-    "version": "npm run thought",
+    "version": "thoughtful changelog -o -a &&  npm run thought",
     "preversion": "npm run thoughtcheck"
   },
   "dependencies": {
@@ -35,6 +35,7 @@
     "chai-as-promised": "^5.2.0",
     "mocha": "^2.2.5",
     "q": "^1.4.1",
+    "thoughtful-release": "^0.3.0",
     "trace": "^2.0.2"
   },
   "standard": {
