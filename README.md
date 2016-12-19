@@ -1,6 +1,7 @@
 # deep-aplus 
-[![NPM version](https://badge.fury.io/js/deep-aplus.svg)](http://badge.fury.io/js/deep-aplus) 
-[![Build Status](https://travis-ci.org/nknapp/deep-aplus.svg)](https://travis-ci.org/nknapp/deep-aplus) 
+
+[![NPM version](https://badge.fury.io/js/deep-aplus.svg)](http://badge.fury.io/js/deep-aplus)
+[![Travis Build Status](https://travis-ci.org/nknapp/deep-aplus.svg?branch=master)](https://travis-ci.org/nknapp/deep-aplus)
 [![Coverage Status](https://img.shields.io/coveralls/nknapp/deep-aplus.svg)](https://coveralls.io/r/nknapp/deep-aplus)
 
 
@@ -36,28 +37,41 @@ var Q = require('q')
 var deep = require('deep-aplus')(Q.Promise)
 
 // Create a promise that returns a value (for demonstration purposes)
-function P (value) {
+function P(value) {
   return Q.delay(1).then(function () {
     return value
   })
 }
 
-deep(2).done(console.log) // 2
-deep(P(2)).done(console.log) // 2
-deep({a: 1, b: P(2)}).done(console.log) // { a: 1, b: 2 }
-deep({a: 1, b: [ 2, P(3) ]}).done(console.log) // { a: 1, b: [ 2, 3 ] }
-deep({a: 1, b: { c: 2, d: P(3) }}).done(console.log) // { a: 1, b: { c: 2, d: 3 } }
+deep(2).then(console.log) // 2
+  .then(() => deep(P(2)))
+  .then(console.log) // 2
 
-// Nesting promises
-deep({a: 1, b: P([ 2, P(3) ])}).done(console.log) // { a: 1, b: [ 2, 3 ] }
-deep({a: 1, b: P([ 2, P(3) ])}).done(console.log) // { a: 1, b: [ 2, 3 ] }
-deep({a: 1, b: P({ c: 2, d: P(3) })}).done(console.log) // { a: 1, b: { c: 2, d: 3 } }
+  .then(() => deep({a: 1, b: P(2)}))
+  .then(console.log) // { a: 1, b: 2 }
+
+  .then(() => deep({a: 1, b: [2, P(3)]}))
+  .then(console.log) // { a: 1, b: [ 2, 3 ] }
+
+  .then(() => deep({a: 1, b: {c: 2, d: P(3)}}))
+  .then(console.log) // { a: 1, b: { c: 2, d: 3 } }
+
+  // Nesting promises
+  .then(() => deep({a: 1, b: P([2, P(3)])}))
+  .then(console.log) // { a: 1, b: [ 2, 3 ] }
+
+  .then(() => deep({a: 1, b: P([2, P(3)])}))
+  .then(console.log) // { a: 1, b: [ 2, 3 ] }
+
+  .then(() => deep({a: 1, b: P({c: 2, d: P(3)})}))
+  .then(console.log) // { a: 1, b: { c: 2, d: 3 } }
 ```
 
 
 ##  API-reference
 
 <a name="module_index"></a>
+
 ### index ⇒ <code>function</code>
 Creates a `deep(value)`-function using the provided constructor to
 create the resulting promise and promises for intermediate steps.

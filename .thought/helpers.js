@@ -24,6 +24,7 @@ module.exports = {
     })
 
     return Q.all([code,result]).spread(function(code, result) {
+      console.log(result)
       var output = result.split('\u0001')
       return code.replace(/console\.log\-output/g, function() {
         return output.shift().trim();

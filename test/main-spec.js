@@ -135,4 +135,14 @@ describe('deep-aplus:', function () {
     var input = {}
     return expect(deep(input)).to.eventually.deep.equal({})
   })
+
+  it('should not remove functions defined in the prototype', function () {
+    var input = {
+      a: Q(require('fs').createReadStream(__filename)).delay(1)
+    }
+    return deep(input)
+      .then(function (result) {
+        return expect(result.a.pipe).to.be.a('function')
+      })
+  })
 })

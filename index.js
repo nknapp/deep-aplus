@@ -7,6 +7,8 @@
 
 'use strict'
 
+var isPlainObject = require('lodash.isplainobject')
+
 module.exports = deepAPlus
 
 /**
@@ -23,10 +25,10 @@ module.exports = deepAPlus
 
 function deepAPlus (Promise) {
   function handleArray (arr) {
-    return new Promise(function (fulfill, reject) {
+    return new Promise(function (resolve, reject) {
       var counter = arr.length
       if (arr.length === 0) {
-        return fulfill([])
+        return resolve([])
       }
       var result = []
       arr.forEach(function (element, index) {
@@ -34,7 +36,7 @@ function deepAPlus (Promise) {
           result[index] = value
           counter--
           if (counter === 0) {
-            fulfill(result)
+            resolve(result)
           }
         }, function (err) {
           reject(err)
@@ -69,20 +71,20 @@ function deepAPlus (Promise) {
 
   /**
    * Return a promise for an object, array, or other value, with all internal promises resolved.
-   * @param obj
-   * @returns {Promise}
+   * @param {*} obj
+   * @returns {Promise<*>}
    * @private
    */
   function handleAny (obj) {
     if (isPromiseAlike(obj)) {
       return obj.then(handleAny)
-    } else if (Object.prototype.toString.call(obj) === '[object Object]') {
+    } else if (isPlainObject(obj)) {
       return handleObject(obj)
     } else if (Object.prototype.toString.call(obj) === '[object Array]') {
       return handleArray(obj)
     } else {
-      return new Promise(function (fulfill) {
-        return fulfill(obj)
+      return new Promise(function (resolve, reject) {
+        return resolve(obj)
       })
     }
   }
