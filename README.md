@@ -65,6 +65,16 @@ deep(2).then(console.log) // 2
 
   .then(() => deep({a: 1, b: P({c: 2, d: P(3)})}))
   .then(console.log) // { a: 1, b: { c: 2, d: 3 } }
+
+  // does not dive into classes in order to preserve their functionality
+  .then(() => {
+    function A() {
+      this.a = 2;
+      this.b = P(3)
+    }
+    return deep(new A())
+  })
+  .then(console.log) // A { a: 2, b: { state: 'pending' } })
 ```
 
 
