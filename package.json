@@ -32,8 +32,8 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "chai-as-promised": "^5.2.0",
-    "mocha": "^2.2.5",
+    "chai-as-promised": "^6.0.0",
+    "mocha": "^3.2.0",
     "q": "^1.4.1",
     "thoughtful-release": "^0.3.0",
     "trace": "^2.0.2"
