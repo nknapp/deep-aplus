@@ -16,12 +16,19 @@ var chai = require('chai')
 var chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 var expect = chai.expect
+var assert = chai.assert
 
 var Q = require('q')
 var deep = require('../')(Q.Promise)
 var delay = function (value) {
   return Q.delay(1).then(function () {
     return value
+  })
+}
+
+var reject = function (error) {
+  return Q.delay(1).then(function () {
+    throw error
   })
 }
 
@@ -145,4 +152,49 @@ describe('deep-aplus:', function () {
         return expect(result.a.pipe).to.be.a('function')
       })
   })
+
+  it('should not remove functions defined in the prototype', function () {
+    var input = {
+      a: Q(require('fs').createReadStream(__filename)).delay(1)
+    }
+    return deep(input)
+      .then(function (result) {
+        return expect(result.a.pipe).to.be.a('function')
+      })
+  })
+
+  it('should reject promises if the property of an object is rejected', function () {
+    return expectRejectionWith('Intentional error for testing', {
+      a: reject(new Error('Intentional error for testing')),
+      b: 2
+    })
+  })
+
+  it('should reject promises if the item of an array is rejected', function () {
+    return expectRejectionWith('Intentional error for testing', [1, 2, 3, reject(new Error('Intentional error for testing'))]
+    )
+  })
+
+  it('should reject promises if the nested promises in objects are rejected', function () {
+    return expectRejectionWith('Intentional error for testing', {
+      a: delay(5),
+      b: delay({
+        a: reject(new Error('Intentional error for testing')),
+        b: 2
+      })
+    })
+  })
 })
+
+function expectRejectionWith (message, input) {
+  return deep(input)
+    .then(
+      function (result) {
+        return assert.fail('Exception expected')
+      },
+      function (error) {
+        return expect(error.message).to.equal(message)
+      }
+    )
+}
+
