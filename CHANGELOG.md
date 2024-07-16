@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
 
+# Version 2.0.1 (Tue, 16 Jul 2024 23:37:18 GMT)
+
+- [fa2c87e](https://github.com/nknapp/deep-aplus/commit/fa2c87e) docs: fix docs - Nils Knappmeier
+
 # Version 2.0.0 (Tue, 16 Jul 2024 23:28:49 GMT)
 
 - [fe76de5](https://github.com/nknapp/deep-aplus/commit/fe76de5) feat!: export esm modules and types, drop Node < 18, drop custom promise constructor - Nils Knappmeier
