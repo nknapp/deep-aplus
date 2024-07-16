@@ -1,26 +1,20 @@
-# deep-aplus 
+# deep-aplus
 
-[![NPM version](https://badge.fury.io/js/deep-aplus.svg)](http://badge.fury.io/js/deep-aplus)
-[![Travis Build Status](https://travis-ci.org/nknapp/deep-aplus.svg?branch=master)](https://travis-ci.org/nknapp/deep-aplus)
-[![Coverage Status](https://img.shields.io/coveralls/nknapp/deep-aplus.svg)](https://coveralls.io/r/nknapp/deep-aplus)
+[![NPM version](https://img.shields.io/npm/v/deep-aplus.svg)](https://npmjs.com/package/deep-aplus)
+[![Github Actions Status](https://github.com/nknapp/deep-aplus/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/nknapp/deep-aplus/actions/workflows/ci.yml)
 
-
-> Resolve a whole structure of promises, library agnostic
-
-
+> Resolve a whole structure of promises
 
 This small library is a promise-library agnostic function that resolves a whole structure
-or objects, arrays, promises and values to a single promise in which the whole structure is 
+or objects, arrays, promises and values to a single promise in which the whole structure is
 resolved.
 
-Unlike other libraries like [q-deep](https://npmjs.com/package/q-deep), [resolve-deep](https://npmjs.com/package/resolve-deep) and 
+Unlike other libraries like [q-deep](https://npmjs.com/package/q-deep), [resolve-deep](https://npmjs.com/package/resolve-deep) and
 [swear](https://npmjs.com/package/swear), this library is designed to work without dependencies to any promise library
 (and also without any other dependencies).
-Just pass the promise constructor (i.e. `Q.Promise` or `Promise`) as first argument.
 
 **Note: There is no cycle check. You have to check for cycles yourself before passing the
-  structure to the function**
-
+structure to the function**
 
 # Installation
 
@@ -33,81 +27,57 @@ npm install deep-aplus
 The following example demonstrates how to use this module:
 
 ```js
-var Q = require('q')
-var deep = require('deep-aplus')(Q.Promise)
+import { deepAplus } from "../dist/index.mjs";
 
 // Create a promise that returns a value (for demonstration purposes)
 function P(value) {
-  return Q.delay(1).then(function () {
-    return value
-  })
+  return new Promise((resolve) => setTimeout(() => resolve(value), 1));
 }
 
-deep(2).then(console.log) // 2
-  .then(() => deep(P(2)))
-  .then(console.log) // 2
+console.log(await deepAplus(2));
+// 2
+console.log(await deepAplus(P(2)));
+// 2
 
-  .then(() => deep({a: 1, b: P(2)}))
-  .then(console.log) // { a: 1, b: 2 }
+console.log(await deepAplus({ a: 1, b: P(2) }));
+// { a: 1, b: 2 }
 
-  .then(() => deep({a: 1, b: [2, P(3)]}))
-  .then(console.log) // { a: 1, b: [ 2, 3 ] }
+console.log(await deepAplus({ a: 1, b: [2, P(3)] }));
+// { a: 1, b: [ 2, 3 ] }
 
-  .then(() => deep({a: 1, b: {c: 2, d: P(3)}}))
-  .then(console.log) // { a: 1, b: { c: 2, d: 3 } }
+console.log(await deepAplus({ a: 1, b: { c: 2, d: P(3) } }));
+// { a: 1, b: { c: 2, d: 3 } }
 
-  // Nesting promises
-  .then(() => deep({a: 1, b: P([2, P(3)])}))
-  .then(console.log) // { a: 1, b: [ 2, 3 ] }
+// Nesting promises
+console.log(await deepAplus({ a: 1, b: P([2, P(3)]) }));
+// { a: 1, b: [ 2, 3 ] }
 
-  .then(() => deep({a: 1, b: P([2, P(3)])}))
-  .then(console.log) // { a: 1, b: [ 2, 3 ] }
+console.log(await deepAplus({ a: 1, b: P([2, P(3)]) }));
+// { a: 1, b: [ 2, 3 ] }
 
-  .then(() => deep({a: 1, b: P({c: 2, d: P(3)})}))
-  .then(console.log) // { a: 1, b: { c: 2, d: 3 } }
+console.log(await deepAplus({ a: 1, b: P({ c: 2, d: P(3) }) }));
+// { a: 1, b: { c: 2, d: 3 } }
 
-  // does not dive into classes in order to preserve their functionality
-  .then(() => {
-    function A() {
-      this.a = 2;
-      this.b = P(3)
-    }
-    return deep(new A())
-  })
-  .then(console.log) // A { a: 2, b: { state: 'pending' } })
+// does not dive into classes in order to preserve their functionality
+class A {
+  a = 2;
+  b = P(3);
+}
+
+console.log(await deepAplus(new A()));
+// A { a: 2, b: Promise { <pending> } })
 ```
 
+# License
 
-##  API-reference
+`deep-aplus` is published under the MIT-license.
 
-<a name="module_index"></a>
-
-### index ⇒ <code>function</code>
-Creates a `deep(value)`-function using the provided constructor to
-create the resulting promise and promises for intermediate steps.
-The `deep` function returns a promise for the resolution of an arbitrary
-structure passed as parameter
-
-**Returns**: <code>function</code> - a function that returns a promise (of the provided class)
-  for a whole object structure  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| Promise | <code>function</code> | class in which promises are created |
-
-
-
-
-## License
-
-`deep-aplus` is published under the MIT-license. 
 See [LICENSE.md](LICENSE.md) for details.
 
-## Release-Notes
- 
+# Release-Notes
+
 For release notes, see [CHANGELOG.md](CHANGELOG.md)
- 
-## Contributing guidelines
+
+# Contributing guidelines
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
