@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Lint
-        run: npm run lint
+        run: npm run test:lint
   test:
     name: Test (Node)
     runs-on: ${{ matrix.operating-system }}
@@ -47,5 +47,5 @@ jobs:
         run: npm install
         
       - name: Test
-        run: npm run test
+        run: npm run test:unit
         
