@@ -22,7 +22,6 @@
   "scripts": {
     "test:unit": "vitest --typecheck run",
     "test:lint": "eslint .",
-    "test:docs": "thought up-to-date",
     "test:build": "npm run build",
     "test": "run-s test:*",
     "dev:unit": "vitest --typecheck --ui",
