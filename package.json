@@ -47,7 +47,7 @@
     "pkgroll": "^2.1.1",
     "prettier": "^3.3.3",
     "thought": "^5.0.0",
-    "thoughtful-release": "^0.3.0",
+    "thoughtful-release": "^1.0.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^7.16.1",
     "vitest": "^2.0.3"
