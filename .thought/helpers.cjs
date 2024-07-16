@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const path = require("path");
+const packageName = require("../package.json").name
 
 module.exports = {
   /**
@@ -26,11 +27,12 @@ module.exports = {
     });
 
     return Promise.all([code, result]).then(function ([code, result]) {
-      console.log(result);
       const output = result.split("\u0001");
-      return code.replace(/console\.log-output/g, function () {
-        return output.shift().trim();
-      });
+      return code
+        .replace("../dist/index.mjs", packageName)
+        .replace(/console\.log-output/g, function () {
+          return output.shift().trim();
+        });
     });
   },
 };

@@ -27,7 +27,7 @@ npm install deep-aplus
 The following example demonstrates how to use this module:
 
 ```js
-import { deepAplus } from "../dist/index.mjs";
+import { deepAplus } from "deep-aplus";
 
 // Create a promise that returns a value (for demonstration purposes)
 function P(value) {
